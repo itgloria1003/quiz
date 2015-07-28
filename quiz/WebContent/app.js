@@ -1,40 +1,31 @@
 var app = angular.module('quizApp', []);
-app.factory('quizFactory', function() {
-	var questions = [
-		{
-			question: "Which is the largest country in the world by population?",
-			options: ["India", "USA", "China", "Russia"],
-			answer: 2
-		},
-		{
-			question: "When did the second world war end?",
-			options: ["1945", "1939", "1944", "1942"],
-			answer: 0
-		},
-		{
-			question: "Which was the first country to issue paper currency?",
-			options: ["USA", "France", "Italy", "China"],
-			answer: 3
-		},
-		{
-			question: "Which city hosted the 1996 Summer Olympics?",
-			options: ["Atlanta", "Sydney", "Athens", "Beijing"],
-			answer: 0
-		},
-		{	
-			question: "Who invented telephone?",
-			options: ["Albert Einstein", "Alexander Graham Bell", "Isaac Newton", "Marie Curie"],
-			answer: 1
-		}
-	];
- 
+app.factory('quizFactory', function($http) {
+    
+    
+    var questions= new Array();
+    
+    $http.get("settings.json").success(function(data){
+        //questions = data;
+        console.log(data.questions);
+        questions = data.questions;
+        //console.log("data loaded" + data.settings);
+        
+        
+    
+    });
+    
+    
+    
+    for (var i= 0;i<questions.length; i++){
+            questions[i].label = i +1;         
+        }
+        
 	return {
 		getQuestionIds: function(){
 			var a = new Array(questions.length);
 			for (var i= 0;i<questions.length; i++){
 				a[i] = i;
 			}
-			
 			return a;
 		}, 
 		getQuestion: function(id) {
@@ -53,6 +44,7 @@ app.directive('quiz', function(quizFactory) {
 		scope: {},
 		templateUrl: 'template.html',
 		link: function(scope, elem, attrs) {
+            
 			scope.start = function() {
 				scope.id = 0;
 				scope.quizOver = false;
@@ -76,13 +68,20 @@ app.directive('quiz', function(quizFactory) {
 					scope.quizOver = true;
 				}
 			};
-			scope.questionIds = function(){
-                return [1,2];
-				//return quizFactory.getQuestionIds();
+            scope.getQuestionInfo = function(id){
+                return quizFactory.getQuestion(id);
+            }
+			scope.getQuestionIds = function(){
+				return quizFactory.getQuestionIds();
 			};
- 
+            scope.hasErrorMessage = function(){
+                return scope.errorMesage != "";
+            }
 			scope.checkAnswer = function() {
-				if(!$('input[name=answer]:checked').length) return;
+				if(!$('input[name=answer]:checked').length) {
+                    scope.errorMesage = "Please select an option!";
+                    return ;
+                } 
  
 				var ans = $('input[name=answer]:checked').val();
  
@@ -97,8 +96,15 @@ app.directive('quiz', function(quizFactory) {
 			};
  
 			scope.nextQuestion = function() {
-				scope.id++;
+                $('.question-area').hide();
+                $('.question-area').show("drop", {}, 500, function(){
+                });                
+                scope.errorMesage = "";
+                
+                scope.id++;
 				scope.getQuestion();
+                
+				
 			}
  
 			scope.reset();

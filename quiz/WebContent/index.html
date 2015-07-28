@@ -1,24 +1,31 @@
 <!DOCTYPE html>
 <html ng-app="quizApp">
+    
     <head>
-        <meta charset="utf-8" />
+        <meta charset="utf-8">
         <title>QuizApp</title>
         <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
         <script src="app.js"></script>
-        
-        <!--  style sheet -->
+        <!-- style sheet -->
         <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
         <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"
         rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="quiz.css">
-        
     </head>
- 
+    
     <body>
         <div class="container">
-            <h1 class="title">A simple quiz application using AngularJS + Bootstrap 3</h1>
-            <quiz/>
+            <quiz></quiz>
         </div>
+        <footer class="section text-center">
+            <div class="section">
+                <p>The quiz read the questions from a json file
+                    <a href="settings.json">here</a>
+                </p>
+            </div>
+        </footer>
     </body>
+
 </html>

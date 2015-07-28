@@ -1,69 +1,73 @@
-<div class="quiz-area" ng-show="inProgress">
-	<!-- start: when the quiz is in progress -->
 
-	<div class="section">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-					<ul class="nav nav-pills">
-						<li ng-repeat="questionId in questionIds">{{questionId}} a</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
+        <div class="quiz-area" ng-show="inProgress">
+            <!-- start: when the quiz is in progress -->
+            <h3 class="title">A simple quiz application using AngularJS + Bootstrap 3 + jQuery</h3>
+            <div ng-show="!quizOver">
+                <div class="section">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ul class="nav nav-pills">
+                                    <!-- <li class="active"><a href="#">1</a></li>-->
+                                    <li ng-repeat="questionId in getQuestionIds()">
+                                        <label ng-class="{label:true, 'label-primary':questionId==id, 'label-default': questionId!=id}">{{getQuestionInfo(questionId).label}}</label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="question-area row">
+                            <div class="col-md-12">
+                                <h4 id="question">{{question}}</h4>
+                                <ul id="options">
+                                    <div class="radio">
+                                        <div ng-repeat="option in options">
+                                            <label>
+                                                <input type="radio" name="answer" value="{{option}}">{{option}}</label>
+                                        </div>
+                                    </div>
+                                </ul>
+                                <div ng-show="answerMode">
+                                    <!-- prompting for checking answer -->
+                                    <div ng-if="hasErrorMessage()">
+                                            {{errorMesage}}
+                                    </div>
+                                    <button class="btn btn-primary" ng-click="checkAnswer()" ng-show="answerMode">Submit</button>
+                                </div>
+                                
+                                
+                                <div ng-show="!answerMode">
+                                    <button class="btn btn-primary" ng-click="nextQuestion()">Next</button>
+                                    <span ng-show="correctAns">That is correct!</span>
+                                    <span ng-show="!correctAns">Sorry, that is an incorrect answer.</span>
+                                </div>
+                            </div>
+                            <div ng-show="quizOver">
+                                <h2>Quiz is over</h2>
+                                <button class="btn btn-primary" ng-click="reset()">Play again</button>
+                                <div id="score">Score: {{score}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end: when the quiz is in progress -->
+        <div class="intro" ng-show="!inProgress">
+            <div class="heading"></div>
+            <div class="section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="jumbotron">
+                                <h1>A simple quiz application using AngularJS + Bootstrap 3 + jQuery</h1>
+                                <p class="text-right">
+                                    <a class="btn btn-primary btn-lg" ng-click="start()">Start
 
-
-	<div ng-show="!quizOver">
-		<div class="section">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12">
-						<h2 id="question">{{question}}</h2>
-						<ul id="options">
-							<li ng-repeat="option in options"><label> <input
-									type="radio" name="answer" value="{{option}}">
-									{{option}}
-							</label></li>
-						</ul>
-						<button ng-click="checkAnswer()" ng-show="answerMode">Submit</button>
-
-						<div ng-show="!answerMode">
-							<button ng-click="nextQuestion()" class="next-question">Next</button>
-							<span ng-show="correctAns">That is correct!</span> <span
-								ng-show="!correctAns">Sorry, that is an incorrect answer.</span>
-						</div>
-					</div>
-
-					<div ng-show="quizOver">
-						<h2>Quiz is over</h2>
-						<button ng-click="reset()">Play again</button>
-					</div>
-
-					<div id="score">Score: {{score}}</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- end: when the quiz is in progress -->
-
-
-<div class="intro" ng-show="!inProgress">
-	<div class="heading"></div>
-	<div class="section">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="jumbotron">
-						<h1>Which Cartoon Character Are You Really?</h1>
-						<p class="text-right">
-							<a class="btn btn-primary btn-lg" ng-click="start()">Start
 								the Test</a>
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       
